@@ -1,0 +1,45 @@
+# Configuración de entorno local
+.env
+
+# Archivos y directorios generados por Visual Studio
+.vscode/
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Archivos y directorios generados por el build
+bin/
+obj/
+Debug/
+Release/
+
+# Paquetes NuGet descargados y restaurados
+*.nupkg
+*.snupkg
+.nuget/
+
+# Caché de paquetes de dependencia
+packages/
+project.lock.json
+project.fragment.lock.json
+
+# Archivos de configuración generados por sistema
+*.DS_Store
+Thumbs.db
+
+# Archivos de logs y temporales
+*.log
+*.tlog
+*.tmp
+*.temp
+*.pid
+
+# Archivos generados por Rider/JetBrains
+.idea/
+*.sln.iml
+
+# Archivos de publicación
+publish/
+
