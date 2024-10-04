@@ -28,13 +28,14 @@ public class Program
         // vendingMachine2.PrintFields();
         
         // Object created with parameterized constructor!
-        var vendingMachine1 = new VendingMachine(true,50,10);
-        // Object created with overloaded constructor! 
-        var vendingMachine2 = new VendingMachine(true,5);
-        // Object created with parameter-less constructor!
-        var vendingMachine3 = new VendingMachine();
-        vendingMachine1.PrintFields();
-        vendingMachine2.PrintFields();
-        vendingMachine3.PrintFields();
+        // var vendingMachine1 = new VendingMachine(true,50,10);
+        // // Object created with overloaded constructor! 
+        // var vendingMachine2 = new VendingMachine(true,5);
+        // // Object created with parameter-less constructor!
+        // var vendingMachine3 = new VendingMachine();
+        // vendingMachine1.PrintFields();
+        // vendingMachine2.PrintFields();
+        // vendingMachine3.PrintFields();
+        Console.WriteLine (SumOfSquares.SquaresSum(1,2,3));
     }
 }
