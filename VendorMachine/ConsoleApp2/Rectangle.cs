@@ -4,25 +4,26 @@ namespace ConsoleApp2;
 class Rectangle {
 
     // Declare Fields Here
-  
+    private int _length;
+    private int _width;
   
     public Rectangle(int length, int width) {
 
-        // Write your code here
+        this._length = length;
+        this._width = width;
 
     }
 
     public int GetArea() {
 
-        // Write your code here
-        return 0; 
+        return this._length * this._width;
     }
   
 }
 
 class Program {
-    // public static void Main(){
-    //     //Rectangle obj = new Rectangle(2,2);
-    //     //Console.WriteLine(obj.GetArea());
-    // }
+    public static void Main(){
+        Rectangle obj = new Rectangle(2,2);
+        Console.WriteLine(obj.GetArea());
+    }
 }
