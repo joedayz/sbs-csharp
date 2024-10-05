@@ -45,17 +45,24 @@ class Product {
 }
 
 // Derived Class
-class Beverage { 
+class Beverage: Product  { 
 
     public int Liters { get; set; } //  Liters of a Beverage
 
     // This function calls the Base class getters and prepends the values to the Litres
     public String GetDetails() { 
-        string details = "";
-
-        // write your code here
-        // Return format should be "name, price, liters"
+        string details = GetName(this.Liters) + ", " + GetPrice(this.Liters) + ", " + Liters;
         return details;
     }
 
+}
+
+class Demo
+{
+    public static void Main(string[] args)
+    {
+        Beverage beverage = new Beverage();
+        beverage.Liters = 2;
+        Console.WriteLine(beverage.GetDetails());
+    }
 }
