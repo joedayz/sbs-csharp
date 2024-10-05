@@ -34,7 +34,7 @@ class Beverage : Product {
 
     // Parameterized Constructor
     public Beverage(string name, double price, string expiryDate, double litres, string flavor) 
-        // : base(name, price, expiryDate) //calling parent class constructor
+        : base(name, price, expiryDate) //calling parent class constructor
     {  
         this._litres = litres;    
         this._flavor = flavor;   
