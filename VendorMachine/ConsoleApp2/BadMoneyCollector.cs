@@ -48,22 +48,22 @@ class BadMoneyCollector {
 
 class Demo1 {
 
-  public static void Main(string[] args) {
-    // Create a new money collector object
-    var moneyCollector = new BadMoneyCollector();
-    // 3 Customers purchase products
-    moneyCollector.AddMoney(2);
-    moneyCollector.AddMoney(5);
-    moneyCollector.AddMoney(7);
-    // getting the collected as 3 products sold it should be 2*3 = 6
-    Console.WriteLine("Total collection till now is: {0}$",moneyCollector.GetMoneyCollected());
-
-    //Let's try to corrupt collection
-    moneyCollector.moneyCollected = 20;
-    Console.WriteLine("Total collection till now is: {0}$",moneyCollector.GetMoneyCollected());
-    //The collection was public so we easily changed its value
-    //THIS SHOULD NOT HAVE HAPPENED!
-
-  }
+  // public static void Main(string[] args) {
+  //   // Create a new money collector object
+  //   var moneyCollector = new BadMoneyCollector();
+  //   // 3 Customers purchase products
+  //   moneyCollector.AddMoney(2);
+  //   moneyCollector.AddMoney(5);
+  //   moneyCollector.AddMoney(7);
+  //   // getting the collected as 3 products sold it should be 2*3 = 6
+  //   Console.WriteLine("Total collection till now is: {0}$",moneyCollector.GetMoneyCollected());
+  //
+  //   //Let's try to corrupt collection
+  //   moneyCollector.moneyCollected = 20;
+  //   Console.WriteLine("Total collection till now is: {0}$",moneyCollector.GetMoneyCollected());
+  //   //The collection was public so we easily changed its value
+  //   //THIS SHOULD NOT HAVE HAPPENED!
+  //
+  // }
 
 }

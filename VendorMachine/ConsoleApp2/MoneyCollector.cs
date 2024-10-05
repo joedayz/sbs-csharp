@@ -47,19 +47,19 @@ class MoneyCollector {
 
 class Demo2 {
 
-  // public static void Main(string[] args) {
-  //   // Create a new money collector object
-  //   var moneyCollector = new MoneyCollector();
-  //   // 3 Customers purchase products
-  //   moneyCollector.AddMoney(3);
-  //   moneyCollector.AddMoney(5);
-  //   moneyCollector.AddMoney(7);
-  //   // getting the collected as 3 products sold it should be 2*3 = 6
-  //   Console.WriteLine("Total collection till now is: {0}$",moneyCollector.GetMoneyCollected());
-  //
-  //   // Uncommenting the below line will now cause an error
-  //   //moneyCollector.moneyCollected = 20;
-  //
-  // }
+  public static void Main(string[] args) {
+    // Create a new money collector object
+    var moneyCollector = new MoneyCollector();
+    // 3 Customers purchase products
+    moneyCollector.AddMoney(3);
+    moneyCollector.AddMoney(5);
+    moneyCollector.AddMoney(7);
+    // getting the collected as 3 products sold it should be 2*3 = 6
+    Console.WriteLine("Total collection till now is: {0}$",moneyCollector.GetMoneyCollected());
+  
+    // Uncommenting the below line will now cause an error
+    //moneyCollector.moneyCollected = 20;
+  
+  }
 
 }
