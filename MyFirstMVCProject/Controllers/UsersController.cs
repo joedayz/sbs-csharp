@@ -18,7 +18,7 @@ namespace People.Controllers
         // GET: Users
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Users.ToListAsync());
+            return View(await _context.Users.FromSqlRaw("select * from Users").ToListAsync());
         }
         
         // GET: Users/Details/5
@@ -29,7 +29,7 @@ namespace People.Controllers
                 return NotFound();
             }
 
-            var user = await _context.Users.FirstOrDefaultAsync(m => m.ID == id);
+            var user = await _context.Users.FromSqlRaw($"select * from Users where ID={id}").FirstOrDefaultAsync();
             if (user == null)
             {
                 return NotFound();
