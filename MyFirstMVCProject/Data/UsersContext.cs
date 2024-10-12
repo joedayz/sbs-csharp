@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
+using People.Models;
 
-namespace People.Models
+namespace People.Data
 {
           public class UsersContext: DbContext
           {

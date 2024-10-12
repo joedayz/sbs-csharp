@@ -1,5 +1,6 @@
 using People.Models;
 using Microsoft.EntityFrameworkCore;
+using People.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,6 +8,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<UsersContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("UsersContext")));
+builder.Services.AddScoped<IUserRepo, MockUserRepo>();
+// services.AddScoped<IUserRepo, SqlUserRepo>();
 
 var app = builder.Build();
 

@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using People.Data;
 using People.Models;
 
 namespace People.Controllers.Api

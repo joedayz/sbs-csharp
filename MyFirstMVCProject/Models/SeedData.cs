@@ -1,5 +1,6 @@
 
 using Microsoft.EntityFrameworkCore;
+using People.Data;
 
 namespace People.Models
 {
