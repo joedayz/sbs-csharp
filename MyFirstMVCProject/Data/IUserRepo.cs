@@ -9,5 +9,6 @@ namespace People.Data
         User GetUserById(int? id);
         User UpdateUser(User user);
         User DeleteUser(int id);
+        IEnumerable<User> GetUsersByName(string name);
     }
 }

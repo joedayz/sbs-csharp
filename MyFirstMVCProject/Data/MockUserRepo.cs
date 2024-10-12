@@ -44,6 +44,13 @@ namespace People.Data
             users.Remove(user);
             return user;
         }
+        
+        public IEnumerable<User> GetUsersByName(string name)
+        {
+            name = name.ToLower();
+            var result = users.FindAll(u => u.Name.ToLower().Contains(name));
+            return result;
+        }
     }
 
 }

@@ -65,5 +65,12 @@ namespace People.Controllers.Api
             return user;
         }
 
+        [Route("name/{name}")]
+        [HttpGet]
+        public IEnumerable<User> GetUsersByName(string name)
+        {
+            return _user.GetUsersByName(name);
+        }
+
     }
 }

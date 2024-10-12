@@ -51,6 +51,13 @@ namespace People.Data
 
             return user;
         }
+        
+        public IEnumerable<User> GetUsersByName(string name)
+        {
+            name = name.ToLower();
+            var allUsers = _context.Users.ToList().FindAll(u => u.Name.ToLower().Contains(name));
+            return allUsers;
+        }
     }
 
 }
