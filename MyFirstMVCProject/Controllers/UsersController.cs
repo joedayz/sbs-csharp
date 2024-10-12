@@ -8,32 +8,29 @@ namespace People.Controllers
 
     public class UsersController : Controller
     {
-        private readonly UsersContext _context;
+        private readonly IUserRepo _user;
 
-        public UsersController(UsersContext context)
+        public UsersController(IUserRepo user)
         {
-            _context = context;
+            _user = user;
         }
 
         // action methods
         // GET: Users
         public async Task<IActionResult> Index()
         {
-            bool IsActive = true;
-            return View(await 
-                _context.Users.FromSqlRaw("select * from Users where IsActive={{IsActive}} ORDER BY Name ASC")
-                    .ToListAsync());
+            return View(_user.GetAllUsers());
         }
         
         // action methods
         // GET: Users
-        public async Task<IActionResult> InActive()
-        {
-            bool IsActive = false;
-            return View(await 
-                _context.Users.FromSqlRaw("elect * from Users where IsActive={{IsActive}} ORDER BY Name ASC")
-                    .ToListAsync());
-        }
+        // public async Task<IActionResult> InActive()
+        // {
+        //     bool IsActive = false;
+        //     return View(await 
+        //         _context.Users.FromSqlRaw("select * from Users where IsActive={{IsActive}} ORDER BY Name ASC")
+        //             .ToListAsync());
+        // }
         
         // GET: Users/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -43,11 +40,12 @@ namespace People.Controllers
                 return NotFound();
             }
 
-            var user = await _context.Users.FromSqlRaw($"select * from Users where ID={id}").FirstOrDefaultAsync();
+            var user = _user.GetUserById(id);
             if (user == null)
             {
                 return NotFound();
             }
+
             return View(user);
         }
         
@@ -65,8 +63,8 @@ namespace People.Controllers
             if (ModelState.IsValid)
             {
                 user.IsActive = true;
-                _context.Add(user);
-                await _context.SaveChangesAsync();
+                _user.CreateUser(user);
+                
                 return RedirectToAction(nameof(Index));
             }
             return View(user);
@@ -80,7 +78,7 @@ namespace People.Controllers
                 return NotFound();
             }
 
-            var user = await _context.Users.FindAsync(id);
+            var user = _user.GetUserById(id);
             if (user == null)
             {
                 return NotFound();
@@ -101,23 +99,8 @@ namespace People.Controllers
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(user);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException e)
-                {
-                    if (!UserExists(user.ID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                    
-                }
+                _user.UpdateUser(user);
+
                 return RedirectToAction(nameof(Index));
             }
             return View(user);
@@ -126,16 +109,19 @@ namespace People.Controllers
         // GET: Users/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-            var user = await _context.Users.FirstOrDefaultAsync(m => m.ID == id);
-            if (user == null)
-            {
-                return NotFound();
-            }
-            return View(user);
+            
+                if (id == null)
+                {
+                    return NotFound();
+                }
+
+                var user = _user.GetUserById(id);
+                if (user == null)
+                {
+                    return NotFound();
+                }
+
+                return View(user);
         }
         
         //POST: Users/Delete/5
@@ -143,15 +129,8 @@ namespace People.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var user = await _context.Users.FindAsync(id);
-            _context.Users.Remove(user);
-            await _context.SaveChangesAsync();
+            _user.DeleteUser(id);
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool UserExists(int id)
-        {
-            return _context.Users.Any(e => e.ID == id);
         }
         
         // CRUD (Create, Read, Update, Delete), HTTP METHODS (POST, GET, PUT/PATCH, DELETE)

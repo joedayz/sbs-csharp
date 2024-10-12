@@ -24,7 +24,7 @@ namespace People.Data
             return users;
         }
 
-        public User GetUserById(int id)
+        public User GetUserById(int? id)
         {
             var user = users.Find(result => result.ID == id);
             return user;

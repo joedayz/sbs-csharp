@@ -6,7 +6,7 @@ namespace People.Data
     {
         User CreateUser(User user);
         IEnumerable<User> GetAllUsers();
-        User GetUserById(int id);
+        User GetUserById(int? id);
         User UpdateUser(User user);
         User DeleteUser(int id);
     }
