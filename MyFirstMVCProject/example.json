@@ -1,0 +1,9 @@
+[
+  {
+    "id":1,
+    "name":"James Bond",
+    "email":"James@Bond.co.uk",
+    "password":"password",
+    "phoneNumber":0070000000
+  }
+]

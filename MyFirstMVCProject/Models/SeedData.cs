@@ -8,8 +8,8 @@ namespace People.Models
 
                     public static void Initialize(IServiceProvider serviceProvider)
                     {
-                              using (var context = new UserContext(
-                                        serviceProvider.GetRequiredService<DbContextOptions<UserContext>>()))
+                              using (var context = new UsersContext(
+                                        serviceProvider.GetRequiredService<DbContextOptions<UsersContext>>()))
                               {
                                         if (context.Users.Any())
                                         {

@@ -7,9 +7,9 @@ namespace People.Controllers
 
     public class UsersController : Controller
     {
-        private readonly UserContext _context;
+        private readonly UsersContext _context;
 
-        public UsersController(UserContext context)
+        public UsersController(UsersContext context)
         {
             _context = context;
         }
@@ -152,6 +152,8 @@ namespace People.Controllers
         {
             return _context.Users.Any(e => e.ID == id);
         }
+        
+        // CRUD (Create, Read, Update, Delete), HTTP METHODS (POST, GET, PUT/PATCH, DELETE)
     }
 
 }
