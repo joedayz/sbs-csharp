@@ -5,7 +5,6 @@ using People.Models;
 
 namespace People.Controllers
 {
-
     public class UsersController : Controller
     {
         private readonly IUserRepo _user;
@@ -15,23 +14,12 @@ namespace People.Controllers
             _user = user;
         }
 
-        // action methods
         // GET: Users
         public async Task<IActionResult> Index()
-        {
-            return View(_user.GetAllUsers());
+        {   
+            return View(await _user.GetAllUsers());
         }
-        
-        // action methods
-        // GET: Users
-        // public async Task<IActionResult> InActive()
-        // {
-        //     bool IsActive = false;
-        //     return View(await 
-        //         _context.Users.FromSqlRaw("select * from Users where IsActive={{IsActive}} ORDER BY Name ASC")
-        //             .ToListAsync());
-        // }
-        
+
         // GET: Users/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -40,7 +28,7 @@ namespace People.Controllers
                 return NotFound();
             }
 
-            var user = _user.GetUserById(id);
+            var user = await _user.GetUserById(id);
             if (user == null)
             {
                 return NotFound();
@@ -48,7 +36,7 @@ namespace People.Controllers
 
             return View(user);
         }
-        
+
         // GET: Users/Create
         public IActionResult Create()
         {
@@ -57,19 +45,20 @@ namespace People.Controllers
 
         // POST: Users/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID, Name, Email, Password, PhoneNumber, IsActive")] User user)
+        public async Task<IActionResult> Create([Bind("ID,Name,Email,Password,PhoneNumber,IsActive")] User user)
         {
             if (ModelState.IsValid)
             {
                 user.IsActive = true;
-                _user.CreateUser(user);
-                
+                await _user.CreateUser(user);
+
+                // _context.Add(user);
+                // await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(user);
         }
-        
+
         // GET: Users/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -78,19 +67,17 @@ namespace People.Controllers
                 return NotFound();
             }
 
-            var user = _user.GetUserById(id);
+            var user = await _user.GetUserById(id);
             if (user == null)
             {
                 return NotFound();
             }
             return View(user);
         }
-        
+
         // POST: Users/Edit/5
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id,
-            [Bind("ID, Name, Email, Password, PhoneNumber, IsActive")] User user)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,Name,Email,Password,PhoneNumber,IsActive")] User user)
         {
             if (id != user.ID)
             {
@@ -99,41 +86,36 @@ namespace People.Controllers
 
             if (ModelState.IsValid)
             {
-                _user.UpdateUser(user);
+                await _user.UpdateUser(user);
 
                 return RedirectToAction(nameof(Index));
             }
             return View(user);
         }
-        
+
         // GET: Users/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            
-                if (id == null)
-                {
-                    return NotFound();
-                }
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-                var user = _user.GetUserById(id);
-                if (user == null)
-                {
-                    return NotFound();
-                }
+            var user = await _user.GetUserById(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
 
-                return View(user);
+            return View(user);
         }
-        
-        //POST: Users/Delete/5
+
+        // POST: Users/Delete/5
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            _user.DeleteUser(id);
+            await _user.DeleteUser(id);
             return RedirectToAction(nameof(Index));
         }
-        
-        // CRUD (Create, Read, Update, Delete), HTTP METHODS (POST, GET, PUT/PATCH, DELETE)
     }
-
 }

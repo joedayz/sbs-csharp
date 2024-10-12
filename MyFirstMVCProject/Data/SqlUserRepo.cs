@@ -1,4 +1,10 @@
+using System.Linq;
 using People.Models;
+using System.Threading.Tasks;
+using System;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 namespace People.Data
 {
@@ -15,49 +21,52 @@ namespace People.Data
             _context = context;
         }
         
-        public User CreateUser(User user)
+        public async Task<User> CreateUser(User user)
         {
             _context.Users.Add(user);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return user;
         }
 
-        public IEnumerable<User> GetAllUsers()
+        public async Task<IEnumerable<User>> GetAllUsers()
         {
-            return _context.Users.ToList();
+            return await _context.Users.ToListAsync();
         }
 
-        public User GetUserById(int? id)
-        {
-            var user = _context.Users.Find(id);
-            return user;
-        }
-
-        public User UpdateUser(User user)
-        {
-            _context.Update(user);
-            _context.SaveChanges();
-
-            return user;
-        }
-
-        public User DeleteUser(int id)
-        {
-            var user = _context.Users.Find(id);
-
-            _context.Users.Remove(user);
-            _context.SaveChanges();
-
-            return user;
-        }
-        
-        public IEnumerable<User> GetUsersByName(string name)
+        public  async Task<IEnumerable<User>> GetUsersByName(string name)
         {
             name = name.ToLower();
-            var allUsers = _context.Users.ToList().FindAll(u => u.Name.ToLower().Contains(name));
-            return allUsers;
+            var allUsers = await _context.Users.ToListAsync();
+            var result = allUsers.FindAll(u => u.Name.ToLower().Contains(name));
+            return result;
         }
+
+        public async Task<User> GetUserById(int? id)
+        {
+            return await _context.Users.FirstOrDefaultAsync(m => m.ID == id);
+        }
+
+        public async Task<User> UpdateUser(User user)
+        {
+            _context.Update(user);
+            await _context.SaveChangesAsync();
+
+            return user;
+        }
+
+        public async Task<User> DeleteUser(int id)
+        {
+            var user = await _context.Users.FindAsync(id);
+
+            _context.Users.Remove(user);
+            await _context.SaveChangesAsync();
+
+            return user;
+        }
+
+        
+
     }
 
 }
