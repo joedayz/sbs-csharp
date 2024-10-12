@@ -8,6 +8,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<UsersContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("UsersContext")));
+builder.Services.AddDbContext<StudentContext>(options =>
+    options.UseSqlite(builder.Configuration.GetConnectionString("UsersContext")));
+
 builder.Services.AddScoped<IUserRepo, MockUserRepo>();
 // services.AddScoped<IUserRepo, SqlUserRepo>();
 

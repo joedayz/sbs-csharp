@@ -18,4 +18,10 @@
     <Compile Remove="Views\Users\Index.cshtml.cs" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\ContactInfos\" />
+    <Folder Include="Views\Departments\" />
+    <Folder Include="Views\Students\" />
+  </ItemGroup>
+
 </Project>
