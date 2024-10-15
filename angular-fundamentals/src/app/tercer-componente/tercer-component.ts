@@ -14,7 +14,7 @@ import { FormsModule } from '@angular/forms';
                                         (input)="handleInput($event)"
                                         (blur)="handleBlur($event)"> -->
                               
-                                        <input
+                              <input
                                                   type="text"
                                                   [ngModel]="name"
                                                   (ngModelChange)="handleChange($event)">                                        
