@@ -1,17 +1,25 @@
 import { Component, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 @Component({
           standalone: true,
-          imports: [],
+          imports: [FormsModule],
           selector: 'tercer-componente',
           template: `
                     <div class="app">
                               <button (click)="handleClick()">Change name</button>
 
-                              <input type="text" 
+                              <!-- <input type="text" 
                                         [value]="name"
                                         (input)="handleInput($event)"
-                                        (blur)="handleBlur($event)">
+                                        (blur)="handleBlur($event)"> -->
+                              
+                                        <input
+                                                  type="text"
+                                                  [ngModel]="name"
+                                                  (ngModelChange)="handleChange($event)">                                        
+                              <input type="text" [(ngModel)]="name">
+
                                         
                               <div>{{ name }}
                     </div>
@@ -20,6 +28,7 @@ import { Component, OnInit } from '@angular/core';
 })
 // Eventos
 export class TercerComponent implements OnInit {
+
 
 
 
@@ -33,10 +42,9 @@ export class TercerComponent implements OnInit {
                     this.name = 'Amadeo';
           }
 
-          handleBlur(event: any) {
-                    this.name = event.target.value;
+          handleChange(value: any) {
+                    this.name = value;
           }
-          handleInput(event: any) {
-                    this.name = event.target.value;
-          }
+
+
 }
