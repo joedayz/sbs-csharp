@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { SextoComponent } from './sexto-componente/sexto.component';
+import { PassengerDashboardComponent } from "./passenger-dashboard/containers/passenger-dashboard.component";
+//import { SextoComponent } from './sexto-componente/sexto.component';
 //import { CuartoComponent } from "./cuarto-componente/cuarto.component";
 //import { QuintoComponent } from "./quinto-componente/quinto.component";
 //import { SegundoComponent } from "./segundo-componente/segundo.component";
@@ -9,22 +10,12 @@ import { SextoComponent } from './sexto-componente/sexto.component';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, SextoComponent],
+  imports: [RouterOutlet, PassengerDashboardComponent],
   template:
     `
-  <div class="app">
-  
-  <!--
-  {{ title }}
-  <div>
-    {{ numberOne + numberTwo }}
-  </div>
-  <div>
-    {{ isHappy ? ':)' : ':(' }}
+    <div class="app">
+      <passenger-dashboard></passenger-dashboard>
     </div>
-  </div>
-  -->
-  <sexto-componente></sexto-componente>
   `,
   styleUrl: './app.component.css'
 })
