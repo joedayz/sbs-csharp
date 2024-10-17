@@ -1,44 +1,32 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Passenger } from '../models/passenger.interface';
+import { Observable } from 'rxjs';
 
+const PASSENGER_API: string = 'http://localhost:3000/passengers';
+
+const httpOptions = {
+          headers: new HttpHeaders({'Content-Type': 'application/json'})
+}
+        
 @Injectable({
           providedIn: 'root',
         })
 export class PassengerDashboardService {
-          constructor(private http: HttpClient) { }
+          constructor(private httpClient: HttpClient) { }
           
-          getPassengers(): Passenger[] {
-                    return [{
-                      id: 1,
-                      fullname: 'Stephen',
-                      checkedIn: true,
-                      checkInDate: 1490742000000,
-                      children: null
-                    }, {
-                      id: 2,
-                      fullname: 'Rose',
-                      checkedIn: false,
-                      checkInDate: null,
-                      children: [{ name: 'Ted', age: 12 },{ name: 'Chloe', age: 7 }]
-                    }, {
-                      id: 3,
-                      fullname: 'James',
-                      checkedIn: true,
-                      checkInDate: 1491606000000,
-                      children: null
-                    }, {
-                      id: 4,
-                      fullname: 'Louise',
-                      checkedIn: true,
-                      checkInDate: 1488412800000,
-                      children: [{ name: 'Jessica', age: 1 }]
-                    }, {
-                      id: 5,
-                      fullname: 'Tina',
-                      checkedIn: false,
-                      checkInDate: null,
-                      children: null
-                    }];
+          getPassengers(): Observable<Passenger[]>{
+                    return this.httpClient.get<Passenger[]>(PASSENGER_API);
           }
+
+          getPassenger(id: number): Observable<Passenger> {
+                    return this.httpClient.get<Passenger>(`${PASSENGER_API}/${id}`);
+          }
+          removePassenger(passenger: Passenger): Observable<Passenger> {
+                    return this.httpClient.delete<Passenger>(`${PASSENGER_API}/${passenger.id}`, httpOptions);
+          }
+          updatePassenger(passenger: Passenger): Observable<Passenger> {
+                    return this.httpClient.put<Passenger>(`${PASSENGER_API}/${passenger.id}`, passenger, httpOptions);
+          }
+
 }
