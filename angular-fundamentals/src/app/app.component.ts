@@ -1,32 +1,51 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { RouterLink, RouterOutlet, RouterLinkActive } from '@angular/router';
 import { PassengerDashboardComponent } from "./passenger-dashboard/containers/passenger-dashboard.component";
-//import { SextoComponent } from './sexto-componente/sexto.component';
-//import { CuartoComponent } from "./cuarto-componente/cuarto.component";
-//import { QuintoComponent } from "./quinto-componente/quinto.component";
-//import { SegundoComponent } from "./segundo-componente/segundo.component";
-//import { TercerComponent } from './tercer-componente/tercer-component';
+import { CommonModule } from '@angular/common';
+
+interface Nav {
+  link: string,
+  name: string,
+  exact: boolean
+}
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, PassengerDashboardComponent],
-  template:
-    `
+  imports: [CommonModule, RouterOutlet, RouterLink,  RouterLinkActive, PassengerDashboardComponent],
+  template:`
     <div class="app">
-      <passenger-dashboard></passenger-dashboard>
+      <nav class="nav">
+        <a *ngFor="let item of nav"
+           [routerLink]="item.link"
+           routerLinkActive="active"
+           [routerLinkActiveOptions]="{ exact: item.exact }">
+          {{ item.name}}
+        </a>
+      </nav>
+      <router-outlet></router-outlet>
     </div>
   `,
-  styleUrl: './app.component.css'
+  styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title: string;
-  isHappy: boolean = false;
-  numberOne: number = 1;
-  numberTwo: number = 2;
 
-  constructor() {
-    this.title = 'Hello World';
-  }
+  nav: Nav[] = [
+    {
+      link: '/',
+      name: 'Home',
+      exact: true
+    },
+    {
+      link: '/passengers',
+      name: 'Passengers',
+      exact: true
+    },
+    {
+      link: '/oops',
+      name: '404',
+      exact: false
+    }
+  ];
 
 }
