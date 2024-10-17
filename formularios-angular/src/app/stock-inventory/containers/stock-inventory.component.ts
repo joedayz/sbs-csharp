@@ -4,6 +4,7 @@ import { FormArray, FormControl, FormGroup, ReactiveFormsModule } from '@angular
 import { StockBranchComponent } from '../components/stock-branch/stock-branch.component';
 import { StockProductsComponent } from '../components/stock-products/stock-products.component';
 import { StockSelectorComponent } from '../components/stock-selector/stock-selector.component';
+import { Product } from '../models/product.interface';
 
 @Component({
           standalone: true,
@@ -16,7 +17,9 @@ import { StockSelectorComponent } from '../components/stock-selector/stock-selec
                                         <stock-branch [parent]="form">
                                         </stock-branch>
 
-                                        <stock-selector [parent]="form">
+                                        <stock-selector 
+                                                  [parent]="form"
+                                                  [products]="products">
                                         </stock-selector>
 
                                         <stock-products [parent]="form">
@@ -36,6 +39,17 @@ import { StockSelectorComponent } from '../components/stock-selector/stock-selec
 })
 
 export class StockInventoryComponent {
+
+          products: Product[] = [
+                    { "id": 1, "price": 2800, "name": "MacBook Pro" },
+                    { "id": 2, "price": 50, "name": "USB-C Adaptor" },
+                    { "id": 3, "price": 400, "name": "iPhone" },
+                    { "id": 4, "price": 900, "name": "iPad" },
+                    { "id": 5, "price": 600, "name": "Apple Watch "},
+                   
+
+          ];
+
 
           form = new FormGroup({
                     store: new FormGroup({
