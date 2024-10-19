@@ -4,7 +4,7 @@ import {FormArray, FormBuilder, FormGroup, ReactiveFormsModule} from '@angular/f
 import {StockBranchComponent} from '../components/stock-branch/stock-branch.component';
 import {StockProductsComponent} from '../components/stock-products/stock-products.component';
 import {StockSelectorComponent} from '../components/stock-selector/stock-selector.component';
-import {Product} from '../models/product.interface';
+import {Item, Product} from '../models/product.interface';
 import {StockInventoryService} from '../services/stock-inventory.service';
 import {forkJoin} from 'rxjs';
 
@@ -31,6 +31,11 @@ import {forkJoin} from 'rxjs';
         </stock-products>
 
 
+        <div class="stock-inventory__price">
+          Total: {{ total | currency:'USD':true }}
+        </div>
+
+
         <div class="stock-inventory__buttons">
           <button type="submit" [disabled]="form.invalid">
             Order Stock
@@ -46,6 +51,8 @@ import {forkJoin} from 'rxjs';
 export class StockInventoryComponent implements OnInit {
 
   products: Product[] = [];
+
+  total: number = 0;
 
   productMap: Map<number, Product> = new Map<number, Product>();
 
@@ -67,6 +74,12 @@ export class StockInventoryComponent implements OnInit {
 
       // Agrega los ítems del carrito al stock
       cart.forEach(item => this.addStock(item));
+
+
+      this.calculeTotal(this.form.get('stock')?.value);
+      this.form.get('stock')?.valueChanges.subscribe(
+        value => this.calculeTotal(value));
+
     });
   }
 
@@ -106,5 +119,10 @@ export class StockInventoryComponent implements OnInit {
     control.removeAt(index);
   }
 
-
+  private calculeTotal(value: Item[]) {
+    const total = value.reduce( (prev, next) => {
+      return prev + (next.quantity * this.productMap.get(next.product_id).price);
+    }, 0);
+    this.total = total;
+  }
 }
