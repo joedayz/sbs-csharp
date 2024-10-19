@@ -42,19 +42,21 @@ import {forkJoin} from 'rxjs';
   `
 })
 
-export class StockInventoryComponent implements OnInit{
+export class StockInventoryComponent implements OnInit {
 
   products: Product[] = [];
 
   form: FormGroup;
 
   ngOnInit(): void {
-      const cart = this.stockService.getCartItems();
-      const products =  this.stockService.getProducts();
+    const cart = this.stockService.getCartItems();
+    const products = this.stockService.getProducts();
 
 
-        forkJoin(cart, products)
-        .subscribe(data => console.log(data));
+    forkJoin({cart, products})
+      .subscribe(({cart, products}) => {
+        console.log(cart, products);
+      });
   }
 
   constructor(private fb: FormBuilder, private stockService: StockInventoryService) {
@@ -88,7 +90,7 @@ export class StockInventoryComponent implements OnInit{
     control.push(this.createStock(stock));
   }
 
-  removeStock( {group, index}: { group:FormGroup, index:number}) {
+  removeStock({group, index}: { group: FormGroup, index: number }) {
     const control = this.form.get('stock') as FormArray;
     control.removeAt(index);
   }
