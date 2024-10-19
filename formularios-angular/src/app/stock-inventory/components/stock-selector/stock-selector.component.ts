@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Product } from '../../models/product.interface';
 
@@ -16,13 +16,13 @@ import { Product } from '../../models/product.interface';
                                                             {{ product.name }}
                                                   </option>
                                         </select>
-                                        <input type="number" 
+                                        <input type="number"
                                         step="10"
                                         min="10"
                                         max="1000"
-                                        formControlName="quantity" 
+                                        formControlName="quantity"
                                         placeholder="Quantity" />
-                                        <button type="button">
+                                        <button type="button" (click)="onAdd()" >
                                                   Add Stock
                                         </button>
                               </div>
@@ -32,9 +32,16 @@ import { Product } from '../../models/product.interface';
 })
 
 export class StockSelectorComponent  {
-          @Input() 
+          @Input()
           parent: FormGroup = new FormGroup({});
 
           @Input()
           products: Product[] = [];
+
+          @Output()
+          added =  new EventEmitter<any>();
+
+          onAdd() {
+            this.added.emit(this.parent.get('selector')?.value);
+          }
 }

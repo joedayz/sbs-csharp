@@ -13,18 +13,19 @@ import { Product } from '../models/product.interface';
           template: `
                     <div class="stock-inventory">
                               <form [formGroup]="form" (ngSubmit)="onSubmit()">
-                                        
+
                                         <stock-branch [parent]="form">
                                         </stock-branch>
 
-                                        <stock-selector 
+                                        <stock-selector
                                                   [parent]="form"
-                                                  [products]="products">
+                                                  [products]="products"
+                                                    (added)="addStock($event)">
                                         </stock-selector>
 
                                         <stock-products [parent]="form">
                                         </stock-products>
-                                        
+
 
                                         <div class = "stock-inventory__buttons">
                                                   <button type="submit" [disabled]="form.invalid">
@@ -46,7 +47,7 @@ export class StockInventoryComponent {
                     { "id": 3, "price": 400, "name": "iPhone" },
                     { "id": 4, "price": 900, "name": "iPad" },
                     { "id": 5, "price": 600, "name": "Apple Watch "},
-                   
+
 
           ];
 
@@ -56,17 +57,27 @@ export class StockInventoryComponent {
                               branch: new FormControl(''),
                               code: new FormControl('')
                     }),
-                    selector: new FormGroup({
-                              product_id: new FormControl(''),
-                              quantity: new FormControl(10)
-                    }),
-                    stock: new FormArray([])
-                    
+                    selector: this.createStock({}),
+                    stock: new FormArray([
+                      this.createStock({ product_id: 1, quantity: 10 }),
+                      this.createStock({ product_id: 3, quantity: 50 }),
+                    ])
+
           });
 
+          createStock(stock:any){
+            return new FormGroup({
+              product_id: new FormControl(parseInt(stock.product_id, 10) || ''),
+              quantity: new FormControl(stock.quantity || 10),
+            });
+          }
 
           onSubmit() {
                     console.log('Submit:', this.form.value);
           }
 
+          addStock(stock: any) {
+              const control = this.form.get('stock') as FormArray;
+              control.push(this.createStock(stock));
+          }
 }
