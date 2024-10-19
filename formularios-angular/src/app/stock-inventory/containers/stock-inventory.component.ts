@@ -1,10 +1,12 @@
 import {CommonModule} from '@angular/common';
 import {Component, OnInit} from '@angular/core';
-import {FormArray, FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
+import {FormArray, FormBuilder, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {StockBranchComponent} from '../components/stock-branch/stock-branch.component';
 import {StockProductsComponent} from '../components/stock-products/stock-products.component';
 import {StockSelectorComponent} from '../components/stock-selector/stock-selector.component';
 import {Product} from '../models/product.interface';
+import {StockInventoryService} from '../services/stock-inventory.service';
+import {forkJoin} from 'rxjs';
 
 @Component({
   standalone: true,
@@ -40,36 +42,40 @@ import {Product} from '../models/product.interface';
   `
 })
 
-export class StockInventoryComponent {
+export class StockInventoryComponent implements OnInit{
 
-  products: Product[] = [
-    {"id": 1, "price": 2800, "name": "MacBook Pro"},
-    {"id": 2, "price": 50, "name": "USB-C Adaptor"},
-    {"id": 3, "price": 400, "name": "iPhone"},
-    {"id": 4, "price": 900, "name": "iPad"},
-    {"id": 5, "price": 600, "name": "Apple Watch "},
+  products: Product[] = [];
 
+  form: FormGroup;
 
-  ];
+  ngOnInit(): void {
+      const cart = this.stockService.getCartItems();
+      const products =  this.stockService.getProducts();
 
 
-  form = new FormGroup({
-    store: new FormGroup({
-      branch: new FormControl(''),
-      code: new FormControl('')
-    }),
-    selector: this.createStock({}),
-    stock: new FormArray([
-      this.createStock({product_id: 1, quantity: 10}),
-      this.createStock({product_id: 3, quantity: 50}),
-    ])
+        forkJoin(cart, products)
+        .subscribe(data => console.log(data));
+  }
 
-  });
+  constructor(private fb: FormBuilder, private stockService: StockInventoryService) {
+
+    this.form = this.fb.group({
+      store: this.fb.group({
+        branch: '',
+        code: ''
+      }),
+      selector: this.createStock({}),
+      stock: this.fb.array([])
+
+    });
+
+  }
+
 
   createStock(stock: any) {
-    return new FormGroup({
-      product_id: new FormControl(parseInt(stock.product_id, 10) || ''),
-      quantity: new FormControl(stock.quantity || 10),
+    return this.fb.group({
+      product_id: parseInt(stock.product_id, 10) || '',
+      quantity: stock.quantity || 10,
     });
   }
 
@@ -86,4 +92,6 @@ export class StockInventoryComponent {
     const control = this.form.get('stock') as FormArray;
     control.removeAt(index);
   }
+
+
 }
