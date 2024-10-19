@@ -26,6 +26,7 @@ import {forkJoin} from 'rxjs';
         </stock-selector>
 
         <stock-products [parent]="form"
+                        [map]="productMap"
                         (removed)="removeStock($event)">
         </stock-products>
 
@@ -46,17 +47,27 @@ export class StockInventoryComponent implements OnInit {
 
   products: Product[] = [];
 
+  productMap: Map<number, Product> = new Map<number, Product>();
+
   form: FormGroup;
 
   ngOnInit(): void {
     const cart = this.stockService.getCartItems();
     const products = this.stockService.getProducts();
 
+    forkJoin({ cart, products }).subscribe(({ cart, products }) => {
+      // Verifica que los productos tienen id válidos
+      const myMap = products.map<[number, Product]>(product => [Number(product.id), product]);
 
-    forkJoin({cart, products})
-      .subscribe(({cart, products}) => {
-        console.log(cart, products);
-      });
+      // Crea el Map a partir del array de tuplas
+      this.productMap = new Map<number, Product>(myMap);
+
+      // Asegúrate de que se asignan correctamente los productos
+      this.products = products;
+
+      // Agrega los ítems del carrito al stock
+      cart.forEach(item => this.addStock(item));
+    });
   }
 
   constructor(private fb: FormBuilder, private stockService: StockInventoryService) {
