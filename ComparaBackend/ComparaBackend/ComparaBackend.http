@@ -1,0 +1,6 @@
+@ComparaBackend_HostAddress = http://localhost:5118
+
+GET {{ComparaBackend_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
