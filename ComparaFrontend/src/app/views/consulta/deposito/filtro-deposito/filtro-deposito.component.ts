@@ -8,6 +8,9 @@ import {SliderModule} from 'primeng/slider';
 import {DropdownModule} from 'primeng/dropdown';
 import {TableModule} from 'primeng/table';
 import {ProductoFinanciero} from '../../../../models/producto-financiero';
+import {ProductoServicioService} from '../../../../services/producto-servicio.service';
+import {CODIGO_DEPOSITO} from '../../../../utils/constantes';
+import {ConsultaFiltro} from '../../../../models/consultaFiltro';
 
 @Component({
   selector: 'app-filtro-deposito',
@@ -31,14 +34,20 @@ export class FiltroDepositoComponent implements OnInit {
   form: FormGroup = new FormGroup({});
   estado = false;
   dataProducto: ProductoFinanciero[] = [];
+  filtro: ConsultaFiltro = new ConsultaFiltro();
 
   constructor(
+    private readonly productoServicioService: ProductoServicioService,
     private readonly departamentoService: DepartamentoService,
     public readonly route: ActivatedRoute) {
   }
 
   ngOnInit(): void {
-    throw new Error('Method not implemented.');
+    this.productoServicioService.listaCambios.subscribe(data =>{
+      this.dataProducto = data;
+    });
+    this.listar();
+    this.cargarDepartamentos();
   }
 
   cargarData(event: any) {
@@ -55,5 +64,22 @@ export class FiltroDepositoComponent implements OnInit {
 
   activateAnimation() {
 
+  }
+
+  private cargarDepartamentos() {
+    this.departamentoService.listar().subscribe(
+      departamentos => {
+        this.departamentos = departamentos;
+      }
+    );
+  }
+
+  private listar() {
+    if(this.filtro!=null){
+      this.productoServicioService.listar(this.filtro).subscribe(data => {
+        this.dataProducto = data;
+      });
+      this.filtro.ConsultaFiltro(CODIGO_DEPOSITO);
+    }
   }
 }
