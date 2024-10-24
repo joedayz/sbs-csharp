@@ -14,25 +14,25 @@ export class ConsultaFiltro {
     this.codigoProductoFinanciero = codigo;
   }
 
-  public setFiltroDeposito(codigo: number, idTipoMonda: number, montoMaximoDeposito: number,
-                           plazoMaximoDia: number, idDepartamento: number, idTipoInstitucion: number) {
+  public setFiltroDeposito(codigo: number, idTipoMonda: string, montoMaximoDeposito: string,
+                           plazoMaximoDia: string, idDepartamento: string, idTipoInstitucion: string) {
     this.codigoProductoFinanciero = codigo;
-    this.tipoMonedaId = idTipoMonda;
-    this.montoMaximoDeposito = montoMaximoDeposito;
-    this.plazoMaximoDia = plazoMaximoDia;
-    this.departamentoId = idDepartamento;
-    this.tipoInstitucionId = idTipoInstitucion;
+    this.tipoMonedaId = Number(idTipoMonda);
+    this.montoMaximoDeposito = Number(montoMaximoDeposito);
+    this.plazoMaximoDia =  Number(plazoMaximoDia);
+    this.departamentoId =  Number(idDepartamento);
+    this.tipoInstitucionId =  Number(idTipoInstitucion);
   }
 
-  public setFiltroPrestamo(codigo: number, idTipoMoneda: number, montoMaximoAceptable: number,
-                           plazoMaximoMes: number, idDepartamento: number, idTipoInstitucion: number,
-                           ingresoPermitido: number) {
+  public setFiltroPrestamo(codigo: number, idTipoMoneda: string, montoMaximoAceptable: string,
+                           plazoMaximoMes: string, idDepartamento: string, idTipoInstitucion: string,
+                           ingresoPermitido: string) {
     this.codigoProductoFinanciero = codigo;
-    this.tipoMonedaId = idTipoMoneda;
-    this.montoMaximoAceptable = montoMaximoAceptable;
-    this.plazoMaximoMes = plazoMaximoMes;
-    this.departamentoId = idDepartamento;
-    this.tipoInstitucionId = idTipoInstitucion;
-    this.ingresoPermitido = ingresoPermitido;
+    this.tipoMonedaId = Number(idTipoMoneda);
+    this.montoMaximoAceptable = Number(montoMaximoAceptable);
+    this.plazoMaximoMes = Number(plazoMaximoMes);
+    this.departamentoId = Number(idDepartamento);
+    this.tipoInstitucionId = Number(idTipoInstitucion);
+    this.ingresoPermitido = Number(ingresoPermitido);
   }
 }
