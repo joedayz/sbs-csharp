@@ -32,13 +32,13 @@
               <p class="textos">Valor Deposito: </p>
               <p class="valores">{{ form.value.valorDeposito }}.00</p>
               <p-slider [min]="1000" [max]="100000" [step]="1000" formControlName="valorDeposito"
-                        (onSlideEnd)="filtrar()" (onChange)="activateAnimation()"></p-slider>
+                        (onSlideEnd)="filtrar()" ></p-slider>
             </div>
             <div class="p-col-10 p-sm-4 p-md-4 p-lg-4">
               <p class="textos">Plazo: </p>
               <p class="valores">{{ form.value.plazo }} Dias</p>
               <p-slider [min]="30" [max]="1800" formControlName="plazo" [step]="30" (onSlideEnd)="filtrar()"
-                        (onChange)="activateAnimation()"></p-slider>
+                        ></p-slider>
             </div>
 
             <div class="p-grid p-justify-center">

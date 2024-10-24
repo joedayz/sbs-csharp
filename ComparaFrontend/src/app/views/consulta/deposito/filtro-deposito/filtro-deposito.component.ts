@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, RouterLink, RouterOutlet} from '@angular/router';
-import {NgIf} from '@angular/common';
+import {CommonModule} from '@angular/common';
 import {ComparaDepositoComponent} from '../compara-deposito/compara-deposito.component';
 import {DepartamentoService} from '../../../../services/departamento.service';
-import {FormGroup, ReactiveFormsModule} from '@angular/forms';
+import {FormBuilder, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {SliderModule} from 'primeng/slider';
 import {DropdownModule} from 'primeng/dropdown';
 import {TableModule} from 'primeng/table';
@@ -19,12 +19,12 @@ import {ConsultaFiltro} from '../../../../models/consultaFiltro';
   imports: [
     ReactiveFormsModule,
     RouterOutlet,
-    NgIf,
+    CommonModule,
     ComparaDepositoComponent,
     SliderModule,
     DropdownModule,
     TableModule,
-    RouterLink,
+    RouterLink
   ],
   styleUrls: ['./filtro-deposito.component.css']
 })
@@ -39,7 +39,10 @@ export class FiltroDepositoComponent implements OnInit {
   constructor(
     private readonly productoServicioService: ProductoServicioService,
     private readonly departamentoService: DepartamentoService,
+    private readonly fb: FormBuilder,
     public readonly route: ActivatedRoute) {
+    this.createForm();
+    this.cargarFormulario();
   }
 
   ngOnInit(): void {
@@ -51,19 +54,33 @@ export class FiltroDepositoComponent implements OnInit {
   }
 
   cargarData(event: any) {
-
+      this.filtro = event;
+      this.cargarFormulario();
+      this.listar();
   }
 
   ocultar(event: any) {
-
+      this.estado = event;
   }
 
   filtrar() {
-
+    const filtro = new ConsultaFiltro();
+    filtro.setFiltroDeposito(CODIGO_DEPOSITO, this.form.value.tipoMoneda, this.form.value.valorDeposito,
+      this.form.value.plazo, this.form.value.departamento, this.form.value.banco);
+    this.productoServicioService.listar(filtro).subscribe(data => {
+      this.productoServicioService.listaCambios.next(data);
+    });
   }
 
-  activateAnimation() {
 
+  createForm() {
+    this.form = this.fb.group({
+      valorDeposito: [],
+      plazo: [],
+      tipoMoneda: [],
+      banco: [],
+      departamento: []
+    });
   }
 
   private cargarDepartamentos() {
@@ -80,6 +97,27 @@ export class FiltroDepositoComponent implements OnInit {
         this.dataProducto = data;
       });
       this.filtro.ConsultaFiltro(CODIGO_DEPOSITO);
+    }
+  }
+
+  private cargarFormulario() {
+    if(this.filtro!=null){
+      this.form.setValue({
+        valorDeposito: this.filtro.montoMaximoDeposito,
+        plazo: this.filtro.plazoMaximoDia,
+        tipoMoneda: this.filtro.tipoMonedaId,
+        banco: this.filtro.tipoInstitucionId,
+        departamento: this.filtro.departamentoId
+      });
+
+    }else{
+      this.form.setValue({
+        valorDeposito: 1000,
+        plazo: 30,
+        tipoMoneda: '5',
+        banco: '8',
+        departamento: 1
+      });
     }
   }
 }

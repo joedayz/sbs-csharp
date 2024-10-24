@@ -1,9 +1,9 @@
-export interface Opcion
+export class Opcion
 {
-  opcionId: number;
-  nombre: string;
-  descripcion: string;
-  pathUrl: string;
-  icono: string;
-  estado: boolean;
+  opcionId: number = 0;
+  nombre: string = '';
+  descripcion: string = '';
+  pathUrl: string = '';
+  icono: string = '';
+  estado: boolean = false;
 }

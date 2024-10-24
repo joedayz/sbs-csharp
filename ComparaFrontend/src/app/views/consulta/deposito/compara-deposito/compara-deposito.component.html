@@ -25,7 +25,7 @@
             <div class="p-col-10 p-sm-6 p-md-6 p-lg-6">
               <p class="textos">Valor Deposito: </p>
               <p class="valores">{{form.value.valorDeposito}}.00</p>
-              <p-slider [min]="1000" [max]="100000" [step]="1000" formControlName="valorDeposito" (onChange)="activateAnimation()"></p-slider>
+              <p-slider [min]="1000" [max]="100000" [step]="1000" formControlName="valorDeposito" ></p-slider>
             </div>
           </div>
           <br>
@@ -33,7 +33,7 @@
             <div class="p-col-10 p-sm-6 p-md-6 p-lg-6">
               <p class="textos">Plazo: </p>
               <p class="valores">{{form.value.plazo}} Dias</p>
-              <p-slider [min]="30" [max]="1800" formControlName="plazo" [step]="30" (onChange)="activateAnimation()"></p-slider>
+              <p-slider [min]="30" [max]="1800" formControlName="plazo" [step]="30" ></p-slider>
             </div>
             <div class="p-col-10 p-sm-6 p-md-6 p-lg-6">
               <p class="textos ubicacion">Ubicacion: </p>

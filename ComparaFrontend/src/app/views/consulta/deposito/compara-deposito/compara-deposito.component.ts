@@ -1,10 +1,13 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule} from '@angular/forms';
-import {Route, Router} from '@angular/router';
+import {Router} from '@angular/router';
 import {CardModule} from 'primeng/card';
 import {SliderModule} from 'primeng/slider';
 import {DropdownModule} from 'primeng/dropdown';
 import {DepartamentoService} from '../../../../services/departamento.service';
+import {CODIGO_DEPOSITO} from '../../../../utils/constantes';
+import {ConsultaFiltro} from '../../../../models/consultaFiltro';
+
 
 
 @Component({
@@ -69,11 +72,12 @@ export class ComparaDepositoComponent implements OnInit {
     });
   }
 
-  activateAnimation() {
-
-  }
 
   filtrar() {
-
+    const filtro = new ConsultaFiltro();
+    filtro.setFiltroDeposito(CODIGO_DEPOSITO,this.form.value.tipoMoneda, this.form.value.valorDeposito,
+      this.form.value.plazo, this.form.value.departamento, this.form.value.banco);
+    this.emisor.emit(filtro);
+    this.ocultar.emit(true);
   }
 }
