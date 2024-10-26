@@ -11,6 +11,7 @@ builder.Services.AddControllers();
 builder.Services.AddSwaggerGen();
 
 // Task 2: Register databaase context here
+builder.Services.AddDbContext<ApiContext>(opt => opt.UseSqlServer(builder.Configuration["Connection:DefaultConnection"]));
 
 // configured jwtoptions to assign the secret key to `Secret` attribute
 builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("JwtOptions"));
