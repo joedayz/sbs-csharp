@@ -1,3 +1,4 @@
+using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using RecipesApi.Models;
 
@@ -9,6 +10,15 @@ var connectionstring = "User ID=sa;password=Perusalen123$;server=localhost;Datab
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<RecipeContext>(opt =>opt.UseSqlServer(connectionstring));
+
+
+builder.Services.AddSwaggerGen(c =>
+{
+    c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory,$"{Assembly.GetExecutingAssembly().GetName().Name}.xml"));
+}
+);
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
