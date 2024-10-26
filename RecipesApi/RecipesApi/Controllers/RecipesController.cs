@@ -78,4 +78,24 @@ public class RecipesController:  ControllerBase
         if (!recipes.Any()) { return NotFound(); }
         return Ok(recipes);
     }
+
+    /// <summary>
+    /// Delete a recipe
+    /// </summary>
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteRecipe(int id)
+    {
+        var recipe = await _recipeContext.Recipes.FindAsync(id);
+        if (recipe == null)
+        {
+            return NotFound();
+        }
+        
+        
+        _recipeContext.Recipes.Remove(recipe);
+        await _recipeContext.SaveChangesAsync();
+        return Ok("Recipe has been deleted successfully");
+    }
+
+
 }
