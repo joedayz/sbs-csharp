@@ -1,3 +1,4 @@
+using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using RecipesApi.Models;
 
@@ -33,6 +34,25 @@ public class RecipesController:  ControllerBase
     public ActionResult<IEnumerable<Recipe>> GetRecipes()
     {
         var recipes = _recipeContext.Recipes.ToList();
+        return Ok(recipes);
+    }
+
+    /// <summary>
+    /// Search recipes by ingredients
+    /// </summary>
+    [HttpGet("/recipes/searchByIngredients/{ingredient}")]
+    public ActionResult<IEnumerable<Recipe>> GetFilterRecipesByIngredients(string ingredient)
+    {
+        var recipes = _recipeContext.Recipes
+            .AsEnumerable()
+            .Where(recipe =>
+                {
+                    var ingredientsList = string.IsNullOrEmpty(recipe.IngredientsJson) ? new List<Recipe.Ingredient>() : JsonSerializer.Deserialize<List<Recipe.Ingredient>>(recipe.IngredientsJson, new JsonSerializerOptions());
+                    return ingredientsList != null && ingredientsList.Any(ingred => ingred.name == ingredient);
+                }
+            )
+            .ToList();
+        if (!recipes.Any()) { return NotFound(); }
         return Ok(recipes);
     }
 }
