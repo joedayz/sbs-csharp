@@ -98,4 +98,27 @@ public class RecipesController:  ControllerBase
     }
 
 
+
+    /// <summary>
+    /// Update a recipe
+    /// </summary>
+    [HttpPut("{id}")]
+    public async Task<IActionResult> PutRecipe(int id, Recipe recipe)
+    {
+        if (id != recipe.Id)
+        {
+            return StatusCode(400, "The id parameter should be equal to the id of the new data of the object to be updated");
+        }
+        
+        if (await _recipeContext.Recipes.FindAsync(id) == null)
+        {
+            return StatusCode(404, "The recipe you want to update is not found in the database");
+        }
+        
+        _recipeContext.Entry(recipe).CurrentValues.SetValues(recipe);
+        await _recipeContext.SaveChangesAsync();           
+        return Ok("Recipe has been updated successfully");
+        
+    }
+
 }
