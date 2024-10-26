@@ -68,4 +68,14 @@ public class RecipesController:  ControllerBase
     }
 
 
+    /// <summary>
+    /// Search a recipe by its title.
+    /// </summary>
+    [HttpGet("/recipes/searchByTitle/{title}")]
+    public ActionResult<IEnumerable<Recipe>> GetFilterRecipesByTitle(string title)
+    {
+        var recipes = _recipeContext.Recipes.Where(s => s.Title != null && s.Title.Contains(title)).ToList();
+        if (!recipes.Any()) { return NotFound(); }
+        return Ok(recipes);
+    }
 }
