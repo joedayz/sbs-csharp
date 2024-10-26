@@ -25,4 +25,14 @@ public class RecipesController:  ControllerBase
         string url = "/api/recipes/" + recipe.Id;
         return CreatedAtAction(null, null, recipe, "The resource has been created successfully at "+ url);
     }
+    
+    ///summary
+    ///Retrieve all recipes
+    ///summary 
+    [HttpGet]
+    public ActionResult<IEnumerable<Recipe>> GetRecipes()
+    {
+        var recipes = _recipeContext.Recipes.ToList();
+        return Ok(recipes);
+    }
 }
