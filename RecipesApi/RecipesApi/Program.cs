@@ -1,10 +1,14 @@
+using Microsoft.EntityFrameworkCore;
+using RecipesApi.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
+var connectionstring = "User ID=sa;password=Perusalen123$;server=localhost;Database=recipes;TrustServerCertificate=True;";
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
+builder.Services.AddDbContext<RecipeContext>(opt =>opt.UseSqlServer(connectionstring));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
