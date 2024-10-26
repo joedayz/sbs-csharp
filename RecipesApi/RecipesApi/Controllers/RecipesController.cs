@@ -55,4 +55,17 @@ public class RecipesController:  ControllerBase
         if (!recipes.Any()) { return NotFound(); }
         return Ok(recipes);
     }
+
+    /// <summary>
+    /// Search recipes by cuisine
+    /// </summary>
+    [HttpGet("/recipes/searchByCuisine/{cuisine}")]
+    public ActionResult<IEnumerable<Recipe>> GetFilterRecipesByCuisine(string cuisine)
+    {
+        var recipes = _recipeContext.Recipes.Where(s => s.Cuisine != null && s.Cuisine.Contains(cuisine)).ToList();
+        if (!recipes.Any()) { return NotFound(); }
+        return Ok(recipes);
+    }
+
+
 }
