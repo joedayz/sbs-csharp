@@ -1,11 +1,10 @@
 <mat-toolbar color="primary">
-  <!-- Task 11: Modify the following navbar entries according to the task-->
 
   <mat-toolbar-row>
     <p class="hotel-title" routerLink="/">Serin Hotels</p>
 
     <span class="spacer"></span>
-    <div>
+    <div *ngIf="isLoggedIn==false; else loggedIn">
       <button mat-raised-button color="primary" routerLink="/login" routerLinkActive="active" class="signin-btn">
         Sign in
       </button>
@@ -13,7 +12,7 @@
         Book now
       </button>
     </div>
-    <div>
+    <ng-template #loggedIn>
       <p mat-raised-button color="primary" routerLink="/reserve" class="signin-btn loggedin-btn">
         Book Rooms
       </p>
@@ -21,10 +20,10 @@
         User Dashboard
       </p>
 
-      <p mat-raised-button color="primary" routerLinkActive="active"
+      <p mat-raised-button color="primary" (click)="logout()" routerLinkActive="active"
          class="signin-btn loggedin-btn">
         Log out
       </p>
-    </div>
+    </ng-template>
   </mat-toolbar-row>
 </mat-toolbar>

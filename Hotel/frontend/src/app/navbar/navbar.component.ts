@@ -1,7 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {MatToolbar, MatToolbarRow} from '@angular/material/toolbar';
-import {RouterLink, RouterLinkActive} from '@angular/router';
+import {Router, RouterLink, RouterLinkActive} from '@angular/router';
 import {MatButton} from '@angular/material/button';
+import {UsersService} from '../services/users.service';
+import {NgIf} from '@angular/common';
 
 @Component({
   selector: 'app-navbar',
@@ -12,23 +14,29 @@ import {MatButton} from '@angular/material/button';
     MatToolbar,
     RouterLink,
     RouterLinkActive,
-    MatButton
+    MatButton,
+    NgIf
   ],
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
-  // Task 11: Declare variables instances here
-
 
   constructor(
-    // Task 11: Add private instances here
-
+    private usersService: UsersService,
+    private router: Router
   ) {
   }
 
   ngOnInit(): void {
-
   }
-  // Task 11: Add logout() function
+
+  get isLoggedIn():boolean{
+    return localStorage.getItem('token') !== null;
+  }
+
+  logout() {
+    this.usersService.logout();
+    this.router.navigate(['/']);
+  }
 
 }
