@@ -24,7 +24,13 @@ login(username: string, password: string): Observable<any> {
   logout(){
     localStorage.removeItem("token");
     localStorage.removeItem("userId");
-    this.router.navigate(['/']);
+    this.router.navigate(['/'])
+      .then(() => {
+        console.log("Navegación exitosa");
+      })
+      .catch((error) => {
+        console.error("Error al navegar", error);
+      });
   }
 
   getUser(id: string): Observable<any> {
