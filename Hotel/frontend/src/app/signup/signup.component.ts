@@ -1,5 +1,13 @@
 import {Component, OnInit} from '@angular/core';
-import {RouterLink} from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
+import {MatToolbar} from '@angular/material/toolbar';
+import {MatCard} from '@angular/material/card';
+import {MatFormField} from '@angular/material/form-field';
+import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import {NgIf} from '@angular/common';
+import {UsersService} from '../services/users.service';
+import {MatButton} from '@angular/material/button';
+import {MatInput} from '@angular/material/input';
 
 
 @Component({
@@ -7,24 +15,54 @@ import {RouterLink} from '@angular/router';
   templateUrl: './signup.component.html',
   standalone: true,
   imports: [
-    RouterLink
+    RouterLink,
+    MatToolbar,
+    MatCard,
+    MatFormField,
+    ReactiveFormsModule,
+    NgIf,
+    MatButton,
+    MatInput
   ],
   styleUrls: ['./signup.component.css']
 })
 export class SignupComponent implements OnInit {
 
-  // Task 9: Add variables here
+  registerForm!: FormGroup;
 
   constructor(
-    // Task 9: Add private insrtances here
-
+   private formBuilder: FormBuilder,
+   private usersService: UsersService,
+   private router: Router
   ) {}
 
   ngOnInit(): void {
-    // Task 9: Add form here
+    this.registerForm = this.formBuilder.group({
+      username: ['', [Validators.required, Validators.minLength(4)]],
+      password: ['', [Validators.required, Validators.minLength(6)]]
+    });
 
   }
 
-  // Task 9: Add onSubmit() here
+  onSubmit(){
+    if(this.registerForm.invalid){
+      return;
+    }
+    const username = this.registerForm.get('username')?.value;
+    const password = this.registerForm.get('password')?.value;
+
+    this.usersService.register(username, password).subscribe({
+      next: (response) =>{
+        //Registration successful
+        window.alert('Registration successful');
+        this.router.navigate(['/login']);
+      },
+      error: (error) =>{
+        //Registration failed
+        window.alert('Please enter valid details to register yourself.');
+      }
+    });
+
+  }
 
 }
