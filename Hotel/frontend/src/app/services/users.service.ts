@@ -1,19 +1,35 @@
 import {Injectable} from '@angular/core';
+import {Router} from '@angular/router';
+import {HttpClient} from '@angular/common/http';
+import {catchError, Observable, throwError} from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UsersService {
-  constructor(
-    // Task 7: Add private instance here
-  ) { }
+  constructor(private router: Router, private http: HttpClient
+  ) {
+  }
 
-  // Task 7: Add register() method here
+  register(username: string, password: string): Observable<any> {
+    return this.http.post('/register', {username, password}, {responseType: 'text'})
+      .pipe(catchError((error) => throwError(() => error)));
+  }
 
-  // Task 7: Add login() method here
+login(username: string, password: string): Observable<any> {
+    return this.http.post('/login', {username, password})
+      .pipe(catchError((error) => throwError(() => error)));
+  }
 
-  // Task 7: Add logout() method here
+  logout(){
+    localStorage.removeItem("token");
+    localStorage.removeItem("userId");
+    this.router.navigate(['/']);
+  }
 
-  // Task 7: Add getUser() method here
+  getUser(id: string): Observable<any> {
+    return this.http.get(`/getUserById/${id}`, {responseType: 'text'})
+      .pipe(catchError((error) => throwError(() => error)));
+  }
 
 }
